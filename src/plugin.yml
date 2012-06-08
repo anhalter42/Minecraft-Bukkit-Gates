@@ -1,0 +1,6 @@
+## YAML Template.
+---
+name: Gates
+main: com.mahn42.anhalter42.gates.Gates
+version: 0.1
+depend: [MAHN42-Framework]
