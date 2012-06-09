@@ -48,7 +48,15 @@ public class PlayerListener implements Listener {
                     new BlockPosition(lBlock.getLocation().add(-5, -5, -5)),
                     new BlockPosition(lBlock.getLocation().add(5, 5, 5)));
             for(Building lBuilding : lBuildings) {
-                Logger.getLogger("detect").info(lBuilding.toCSV());
+                GateBuildingDB lDB = plugin.DBs.getDB(lWorld);
+                if (lDB.getBuildings(lBuilding.edge1).isEmpty()
+                        && lDB.getBuildings(lBuilding.edge2).isEmpty()) {
+                    GateBuilding lGate = new GateBuilding();
+                    lGate.cloneFrom(lBuilding);
+                    lGate.playerName = lPlayer.getName();
+                    Logger.getLogger("detect").info(lGate.toCSV());
+                    lDB.addRecord(lGate);
+                }
             }
         }
     }
