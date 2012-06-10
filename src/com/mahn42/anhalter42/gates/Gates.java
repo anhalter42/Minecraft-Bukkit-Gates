@@ -3,6 +3,7 @@ package com.mahn42.anhalter42.gates;
 import com.mahn42.framework.BuildingDescription;
 import com.mahn42.framework.Framework;
 import com.mahn42.framework.WorldDBList;
+import java.util.HashMap;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
@@ -21,6 +22,8 @@ public class Gates extends JavaPlugin {
     public Framework framework;
 
     public WorldDBList<GateBuildingDB> DBs;
+    
+    protected HashMap<GateBuilding, GateTask> fGateTasks = new HashMap<GateBuilding, GateTask>();
     
     public static void main(String[] args) {
     }
@@ -78,4 +81,20 @@ public class Gates extends JavaPlugin {
         getServer().getScheduler().cancelTasks(this);
     }
 
+    public boolean existsGateTask(GateBuilding aGate) {
+        return fGateTasks.containsKey(aGate);
+    }
+    
+    public void startGateTask(GateTask aTask) {
+        aTask.taskId = getServer().getScheduler().scheduleAsyncRepeatingTask(this, aTask, 1, 15);
+        fGateTasks.put(aTask.gate, aTask);
+        getLogger().info("start task " + new Integer(aTask.taskId));
+    }
+    
+    public void stopGateTask(GateTask aTask) {
+        getServer().getScheduler().cancelTask(aTask.taskId);
+        fGateTasks.remove(aTask.gate);
+        getLogger().info("stop task " + new Integer(aTask.taskId));
+    }
+    
 }
