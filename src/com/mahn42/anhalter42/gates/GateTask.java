@@ -8,6 +8,7 @@ import com.mahn42.framework.BlockPosition;
 import com.mahn42.framework.WorldLineWalk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -39,12 +40,19 @@ public class GateTask implements Runnable {
             fInRun = true;
             try {
                 if (!fInit) {
-                    fLeftBottom = gate.getBlock("DoorHingeLeftBottom").position;
-                    fLeftTop = gate.getBlock("DoorHingeLeftTop").position;
-                    fRightBottom = gate.getBlock("DoorHingeLeftBottom").position;
-                    fRightTop = gate.getBlock("DoorHingeRightTop").position;
+                    fLeftBottom = gate.getBlock("DoorHingeLeftBottom").position.clone();
+                    fLeftTop = gate.getBlock("DoorHingeLeftTop").position.clone();
+                    fRightBottom = gate.getBlock("DoorHingeLeftBottom").position.clone();
+                    fRightTop = gate.getBlock("DoorHingeRightTop").position.clone();
                     fHeight = ( fLeftTop.y - fLeftBottom.y ) + 1;
-                    fCount = fHeight;
+                    if (open) {
+                        fCount = fHeight - 1;
+                        gate.openCount = 0;
+                    } else {
+                        fCount = gate.openCount;
+                        fLeftTop.y -= ( fHeight - fCount ) - 1;
+                        fRightTop.y -= ( fHeight - fCount ) - 1;
+                    }
                     fInit = true;
                 }
                 if (open) {
@@ -79,7 +87,7 @@ public class GateTask implements Runnable {
             if (lTopLineEmpty) {
                 lLeftTop.cloneFrom(fLeftTop);
                 lRightTop.cloneFrom(fRightTop);
-                for(int lDy = 0; lDy < fHeight; lDy++) {
+                for(int lDy = 0; lDy < (fHeight - 1); lDy++) {
                     for(BlockPosition lPos : new WorldLineWalk(lLeftTop, lRightTop)) {
                         if (!lPos.equals(lLeftTop) && !lPos.equals(lRightTop)) {
                             Block lFrom = lPos.getBlock(gate.world);
@@ -97,6 +105,8 @@ public class GateTask implements Runnable {
                 fLeftTop.add(0,1,0);
                 fRightTop.add(0,1,0);
                 fCount--;
+                gate.open = true;
+                gate.openCount++;
             } else {
                 plugin.stopGateTask(this);
             }
@@ -106,6 +116,47 @@ public class GateTask implements Runnable {
     }
 
     protected void doClose() {
-        
+        if (fCount > 0) {
+            plugin.getLogger().info("C: " + new Integer(fCount));
+            BlockPosition lLeftTop = fLeftTop.clone();
+            BlockPosition lRightTop = fRightTop.clone();
+            lLeftTop.add(0,-1,0);
+            lRightTop.add(0,-1,0);
+            //check if bottom line has items to drop
+            for(BlockPosition lPos : new WorldLineWalk(lLeftTop, lRightTop)) {
+                if (!lPos.equals(lLeftTop) && !lPos.equals(lRightTop)) {
+                    Block lBlock = lPos.getBlock(gate.world);
+                    Material lMat = lBlock.getType();
+                    if (!lMat.equals(Material.AIR)) {
+                        ItemStack lStack = new ItemStack(lMat, 1, (short)0, lBlock.getData());
+                        gate.world.dropItemNaturally(lPos.getLocation(gate.world), lStack);
+                    }
+                }
+            }
+            lLeftTop.cloneFrom(fLeftTop);
+            lRightTop.cloneFrom(fRightTop);
+            for(int lDy = 0; lDy < (fHeight - 1); lDy++) {
+                for(BlockPosition lPos : new WorldLineWalk(lLeftTop, lRightTop)) {
+                    if (!lPos.equals(lLeftTop) && !lPos.equals(lRightTop)) {
+                        Block lFrom = lPos.getBlock(gate.world);
+                        plugin.framework.setTypeAndData(lPos.getBlockAt(gate.world, 0, -1, 0).getLocation(), lFrom.getType(), lFrom.getData(), true);
+                    }
+                }
+                lLeftTop.y++;
+                lRightTop.y++;
+            }
+            for(BlockPosition lPos : new WorldLineWalk(lLeftTop, lRightTop)) {
+                if (!lPos.equals(lLeftTop) && !lPos.equals(lRightTop)) {
+                    plugin.framework.setTypeAndData(lPos.getBlock(gate.world).getLocation(), Material.AIR, (byte)0, true);
+                }
+            }
+            fLeftTop.add(0,-1,0);
+            fRightTop.add(0,-1,0);
+            fCount--;
+            gate.open = false;
+            gate.openCount = 0;
+        } else {
+            plugin.stopGateTask(this);
+        }
     }
 }
