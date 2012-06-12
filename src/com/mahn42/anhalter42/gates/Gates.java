@@ -33,13 +33,19 @@ public class Gates extends JavaPlugin {
         framework = Framework.plugin;
         DBs = new WorldDBList<GateBuildingDB>(GateBuildingDB.class, this);
         
-        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-        getServer().getPluginManager().registerEvents(new BlockListener(this), this);
+        //getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        //getServer().getPluginManager().registerEvents(new BlockListener(this), this);
+        
+        framework.registerSaver(DBs);
+        
+        GateHandler lHandler = new GateHandler(this);
         
         BuildingDescription lDesc;
         BuildingDescription.BlockDescription lBDesc;
         
         lDesc = framework.getBuildingDetector().newDescription("Gates.Door.X");
+        lDesc.typeName = "Gate";
+        lDesc.handler = lHandler;
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftTop");
         lBDesc.redstoneSensible = true;
         lBDesc.material = Material.IRON_BLOCK;
@@ -58,6 +64,8 @@ public class Gates extends JavaPlugin {
         lDesc.activate();
 
         lDesc = framework.getBuildingDetector().newDescription("Gates.Door.Z");
+        lDesc.typeName = "Gate";
+        lDesc.handler = lHandler;
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftTop");
         lBDesc.redstoneSensible = true;
         lBDesc.material = Material.IRON_BLOCK;
