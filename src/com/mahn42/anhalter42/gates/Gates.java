@@ -42,6 +42,7 @@ public class Gates extends JavaPlugin {
         
         BuildingDescription lDesc;
         BuildingDescription.BlockDescription lBDesc;
+        BuildingDescription.RelatedTo lRel;
         
         lDesc = framework.getBuildingDetector().newDescription("Gates.Door.X");
         lDesc.typeName = "Gate";
@@ -49,15 +50,20 @@ public class Gates extends JavaPlugin {
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftTop");
         lBDesc.redstoneSensible = true;
         lBDesc.material = Material.IRON_BLOCK;
-        lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeLeftBottom");
-        lBDesc.newRelatedTo(new Vector(10, 0, 0), "DoorHingeRightTop");
+        lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeLeftBottom");
+        lRel.materials.add(Material.SMOOTH_BRICK);
+        lRel.minDistance = 1;
+        lRel = lBDesc.newRelatedTo(new Vector(10, 0, 0), "DoorHingeRightTop");
+        lRel.minDistance = 1;
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftBottom");
         lBDesc.redstoneSensible = true;
         lBDesc.material = Material.IRON_BLOCK;
         lBDesc = lDesc.newBlockDescription("DoorHingeRightTop");
         lBDesc.redstoneSensible = true;
         lBDesc.material = Material.IRON_BLOCK;
-        lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeRightBottom");
+        lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeRightBottom");
+        lRel.materials.add(Material.SMOOTH_BRICK);
+        lRel.minDistance = 1;
         lBDesc = lDesc.newBlockDescription("DoorHingeRightBottom");
         lBDesc.redstoneSensible = true;
         lBDesc.material = Material.IRON_BLOCK;
@@ -69,15 +75,20 @@ public class Gates extends JavaPlugin {
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftTop");
         lBDesc.redstoneSensible = true;
         lBDesc.material = Material.IRON_BLOCK;
-        lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeLeftBottom");
-        lBDesc.newRelatedTo(new Vector(0, 0, 10), "DoorHingeRightTop");
+        lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeLeftBottom");
+        lRel.materials.add(Material.SMOOTH_BRICK);
+        lRel.minDistance = 1;
+        lRel = lBDesc.newRelatedTo(new Vector(0, 0, 10), "DoorHingeRightTop");
+        lRel.minDistance = 1;
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftBottom");
         lBDesc.redstoneSensible = true;
         lBDesc.material = Material.IRON_BLOCK;
         lBDesc = lDesc.newBlockDescription("DoorHingeRightTop");
         lBDesc.redstoneSensible = true;
         lBDesc.material = Material.IRON_BLOCK;
-        lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeRightBottom");
+        lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeRightBottom");
+        lRel.materials.add(Material.SMOOTH_BRICK);
+        lRel.minDistance = 1;
         lBDesc = lDesc.newBlockDescription("DoorHingeRightBottom");
         lBDesc.redstoneSensible = true;
         lBDesc.material = Material.IRON_BLOCK;

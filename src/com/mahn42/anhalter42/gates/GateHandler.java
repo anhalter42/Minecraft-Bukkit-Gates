@@ -10,6 +10,7 @@ import com.mahn42.framework.BuildingHandler;
 import java.util.logging.Logger;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -23,6 +24,13 @@ public class GateHandler implements BuildingHandler {
     
     public GateHandler(Gates aPlugin) {
         plugin = aPlugin;
+    }
+    
+    public boolean breakBlock(BlockBreakEvent aEvent, Building aBuilding) {
+        World lWorld = aEvent.getBlock().getWorld();
+        GateBuildingDB lDB = plugin.DBs.getDB(lWorld);
+        lDB.remove(aBuilding);
+        return true;
     }
     
     @Override
@@ -45,7 +53,7 @@ public class GateHandler implements BuildingHandler {
             GateBuilding lGate = new GateBuilding();
             lGate.cloneFrom(aBuilding);
             lGate.playerName = lPlayer.getName();
-            Logger.getLogger("detect").info(lGate.toCSV());
+            //Logger.getLogger("detect").info(lGate.toCSV());
             lDB.addRecord(lGate);
             lPlayer.sendMessage("Building " + lGate.getName() + " found.");
             lFound = true;

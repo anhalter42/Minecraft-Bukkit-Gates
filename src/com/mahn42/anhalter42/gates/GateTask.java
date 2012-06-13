@@ -69,7 +69,7 @@ public class GateTask implements Runnable {
     
     protected void doOpen() {
         if (fCount > 0) {
-            plugin.getLogger().info("C: " + new Integer(fCount));
+            //plugin.getLogger().info("C: " + new Integer(fCount));
             BlockPosition lLeftTop = fLeftTop.clone();
             BlockPosition lRightTop = fRightTop.clone();
             lLeftTop.add(0,1,0);
@@ -80,7 +80,7 @@ public class GateTask implements Runnable {
                 if (!lPos.equals(lLeftTop) && !lPos.equals(lRightTop)) {
                     if (!lPos.getBlockType(gate.world).equals(Material.AIR)) {
                         lTopLineEmpty = false;
-                        plugin.getLogger().info("TopLine no AIR");
+                        //plugin.getLogger().info("TopLine no AIR");
                         break;
                     }
                 }
@@ -126,7 +126,7 @@ public class GateTask implements Runnable {
 
     protected void doClose() {
         if (fCount > 0) {
-            plugin.getLogger().info("C: " + new Integer(fCount));
+            //plugin.getLogger().info("C: " + new Integer(fCount));
             BlockPosition lLeftTop = fLeftTop.clone();
             BlockPosition lRightTop = fRightTop.clone();
             lLeftTop.add(0,-1,0);
