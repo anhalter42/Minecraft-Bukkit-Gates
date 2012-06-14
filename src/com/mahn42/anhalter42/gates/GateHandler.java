@@ -35,11 +35,18 @@ public class GateHandler implements BuildingHandler {
     
     @Override
     public boolean redstoneChanged(BlockRedstoneEvent aEvent, Building aBuilding) {
-        GateTask aTask = new GateTask(plugin);
-        aTask.gate = (GateBuilding)aBuilding;
-        aTask.open = aEvent.getNewCurrent() > 0;
-        plugin.startGateTask(aTask);
-        return true;
+        boolean lOpen = aEvent.getNewCurrent() > 0;
+        GateBuilding lGate = (GateBuilding)aBuilding;
+        if (!plugin.existsGateTask(lGate)) {
+                //&& ((lOpen && !lGate.open) || (!lOpen && lGate.open)))  {
+            GateTask aTask = new GateTask(plugin);
+            aTask.gate = lGate;
+            aTask.open = lOpen;
+            plugin.startGateTask(aTask);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
