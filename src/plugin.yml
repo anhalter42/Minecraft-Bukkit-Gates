@@ -2,5 +2,5 @@
 ---
 name: Gates
 main: com.mahn42.anhalter42.gates.Gates
-version: 0.1
+version: 0.2
 depend: [MAHN42-Framework]

@@ -108,13 +108,13 @@ public class Gates extends JavaPlugin {
     public void startGateTask(GateTask aTask) {
         aTask.taskId = getServer().getScheduler().scheduleAsyncRepeatingTask(this, aTask, 1, 15);
         fGateTasks.put(aTask.gate, aTask);
-        getLogger().info("start task " + new Integer(aTask.taskId));
+        //getLogger().info("start task " + new Integer(aTask.taskId));
     }
     
     public void stopGateTask(GateTask aTask) {
         getServer().getScheduler().cancelTask(aTask.taskId);
         fGateTasks.remove(aTask.gate);
-        getLogger().info("stop task " + new Integer(aTask.taskId));
+        //getLogger().info("stop task " + new Integer(aTask.taskId));
     }
     
 }
