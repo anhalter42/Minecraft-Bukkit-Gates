@@ -6,8 +6,7 @@ package com.mahn42.anhalter42.gates;
 
 import com.mahn42.framework.Building;
 import com.mahn42.framework.BuildingDB;
-import com.mahn42.framework.BuildingHandler;
-import java.util.logging.Logger;
+import com.mahn42.framework.BuildingHandlerBase;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -18,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
  *
  * @author andre
  */
-public class GateHandler implements BuildingHandler {
+public class GateHandler extends BuildingHandlerBase {
 
     protected Gates plugin;
     
