@@ -38,10 +38,11 @@ public class Gates extends JavaPlugin {
         GateHandler lHandler = new GateHandler(this);
         
         BuildingDescription lDesc;
+        BuildingDescription lDesc2;
         BuildingDescription.BlockDescription lBDesc;
         BuildingDescription.RelatedTo lRel;
         
-        lDesc = framework.getBuildingDetector().newDescription("Gates.Door.X");
+        lDesc = framework.getBuildingDetector().newDescription("Gates.Door.X1");
         lDesc.typeName = "Gate";
         lDesc.handler = lHandler;
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftTop");
@@ -68,7 +69,24 @@ public class Gates extends JavaPlugin {
         lBDesc.materials.add(Material.IRON_BLOCK);
         lDesc.activate();
 
-        lDesc = framework.getBuildingDetector().newDescription("Gates.Door.Z");
+        lDesc2 = framework.getBuildingDetector().newDescription("Gates.Door.X2");
+        lDesc2.cloneFrom(lDesc);
+        lDesc2.multiply(new Vector(-1,1,1));
+        lDesc2.activate();
+
+        lDesc2 = framework.getBuildingDetector().newDescription("Gates.Door.Z1");
+        lDesc2.cloneFrom(lDesc);
+        lDesc2.swapXYZ(BuildingDescription.SwapType.XZ);
+        lDesc2.activate();
+
+        lDesc = lDesc2;
+        lDesc2 = framework.getBuildingDetector().newDescription("Gates.Door.Z2");
+        lDesc2.cloneFrom(lDesc);
+        lDesc2.multiply(new Vector(1,1,-1));
+        lDesc2.activate();
+        //lDesc2.multiply(new Vector(-1, 0, 0));
+        //lDesc2.name = "Gates.Door.Z";
+        /*
         lDesc.typeName = "Gate";
         lDesc.handler = lHandler;
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftTop");
@@ -94,6 +112,8 @@ public class Gates extends JavaPlugin {
         lBDesc.redstoneSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
         lDesc.activate();
+        * 
+        */
     }
 
     @Override
