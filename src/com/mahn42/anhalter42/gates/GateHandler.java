@@ -27,8 +27,9 @@ public class GateHandler extends BuildingHandlerBase {
     
     public boolean breakBlock(BlockBreakEvent aEvent, Building aBuilding) {
         World lWorld = aEvent.getBlock().getWorld();
+        GateBuilding lGate = (GateBuilding)aBuilding;
         GateBuildingDB lDB = plugin.DBs.getDB(lWorld);
-        lDB.remove(aBuilding);
+        lDB.remove(lGate);
         return true;
     }
     
@@ -58,8 +59,6 @@ public class GateHandler extends BuildingHandlerBase {
                 && lDB.getBuildings(aBuilding.edge2).isEmpty()) {
             GateBuilding lGate = new GateBuilding();
             lGate.cloneFrom(aBuilding);
-            lGate.playerName = lPlayer.getName();
-            //Logger.getLogger("detect").info(lGate.toCSV());
             lDB.addRecord(lGate);
             lPlayer.sendMessage("Building " + lGate.getName() + " found.");
             lFound = true;
