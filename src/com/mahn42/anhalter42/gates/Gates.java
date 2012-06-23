@@ -66,7 +66,6 @@ public class Gates extends JavaPlugin {
         lBDesc = lDesc.newBlockDescription("DoorHingeRightBottom");
         lBDesc.redstoneSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
-        lDesc.activate();
         lDesc.createAndActivateXZ();
 /*
         lDesc2 = framework.getBuildingDetector().newDescription("Gates.Door.X2");
