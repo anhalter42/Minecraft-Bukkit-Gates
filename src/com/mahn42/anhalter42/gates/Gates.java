@@ -46,6 +46,7 @@ public class Gates extends JavaPlugin {
         lDesc.handler = lHandler;
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftTop");
         lBDesc.redstoneSensible = true;
+        lBDesc.nameSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
         lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeLeftBottom");
         lRel.materials.add(Material.SMOOTH_BRICK);
@@ -58,6 +59,7 @@ public class Gates extends JavaPlugin {
         lBDesc.materials.add(Material.IRON_BLOCK);
         lBDesc = lDesc.newBlockDescription("DoorHingeRightTop");
         lBDesc.redstoneSensible = true;
+        lBDesc.nameSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
         lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeRightBottom");
         lRel.materials.add(Material.SMOOTH_BRICK);
