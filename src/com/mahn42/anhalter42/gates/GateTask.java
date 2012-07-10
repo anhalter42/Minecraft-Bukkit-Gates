@@ -20,6 +20,7 @@ public class GateTask implements Runnable {
     public Gates plugin;
     public GateBuilding gate;
     public boolean open = true;
+    public boolean emergency = false;
     public int taskId;
     
     protected boolean fInRun = false;
@@ -33,6 +34,12 @@ public class GateTask implements Runnable {
     
     public GateTask(Gates aPlugin) {
         plugin = aPlugin;
+    }
+    
+    public void doEmegency() {
+        while (fCount > 0) {
+            run();
+        }
     }
     
     @Override

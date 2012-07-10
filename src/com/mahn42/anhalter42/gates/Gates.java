@@ -70,58 +70,14 @@ public class Gates extends JavaPlugin {
         lBDesc.redstoneSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
         lDesc.createAndActivateXZ();
-/*
-        lDesc2 = framework.getBuildingDetector().newDescription("Gates.Door.X2");
-        lDesc2.cloneFrom(lDesc);
-        lDesc2.multiply(new Vector(-1,1,1));
-        lDesc2.activate();
-
-        lDesc2 = framework.getBuildingDetector().newDescription("Gates.Door.Z1");
-        lDesc2.cloneFrom(lDesc);
-        lDesc2.swapXYZ(BuildingDescription.SwapType.XZ);
-        lDesc2.activate();
-
-        lDesc = lDesc2;
-        lDesc2 = framework.getBuildingDetector().newDescription("Gates.Door.Z2");
-        lDesc2.cloneFrom(lDesc);
-        lDesc2.multiply(new Vector(1,1,-1));
-        lDesc2.activate();
-        */
-        //lDesc2.multiply(new Vector(-1, 0, 0));
-        //lDesc2.name = "Gates.Door.Z";
-        /*
-        lDesc.typeName = "Gate";
-        lDesc.handler = lHandler;
-        lBDesc = lDesc.newBlockDescription("DoorHingeLeftTop");
-        lBDesc.redstoneSensible = true;
-        lBDesc.materials.add(Material.IRON_BLOCK);
-        lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeLeftBottom");
-        lRel.materials.add(Material.SMOOTH_BRICK);
-        lRel.materials.add(Material.BRICK);
-        lRel.minDistance = 1;
-        lRel = lBDesc.newRelatedTo(new Vector(0, 0, 10), "DoorHingeRightTop");
-        lRel.minDistance = 1;
-        lBDesc = lDesc.newBlockDescription("DoorHingeLeftBottom");
-        lBDesc.redstoneSensible = true;
-        lBDesc.materials.add(Material.IRON_BLOCK);
-        lBDesc = lDesc.newBlockDescription("DoorHingeRightTop");
-        lBDesc.redstoneSensible = true;
-        lBDesc.materials.add(Material.IRON_BLOCK);
-        lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeRightBottom");
-        lRel.materials.add(Material.SMOOTH_BRICK);
-        lRel.materials.add(Material.BRICK);
-        lRel.minDistance = 1;
-        lBDesc = lDesc.newBlockDescription("DoorHingeRightBottom");
-        lBDesc.redstoneSensible = true;
-        lBDesc.materials.add(Material.IRON_BLOCK);
-        lDesc.activate();
-        * 
-        */
     }
 
     @Override
     public void onDisable() {
         getServer().getScheduler().cancelTasks(this);
+        /*for(GateTask lTask : fGateTasks.values()) {
+            lTask.doEmegency();
+        }*/
     }
 
     public boolean existsGateTask(GateBuilding aGate) {
