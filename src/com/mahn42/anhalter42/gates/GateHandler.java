@@ -25,6 +25,7 @@ public class GateHandler extends BuildingHandlerBase {
         plugin = aPlugin;
     }
     
+    @Override
     public boolean breakBlock(BlockBreakEvent aEvent, Building aBuilding) {
         World lWorld = aEvent.getBlock().getWorld();
         GateBuilding lGate = (GateBuilding)aBuilding;
