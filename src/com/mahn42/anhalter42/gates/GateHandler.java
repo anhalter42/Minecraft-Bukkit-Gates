@@ -4,9 +4,11 @@
  */
 package com.mahn42.anhalter42.gates;
 
+import com.mahn42.framework.BlockPosition;
 import com.mahn42.framework.Building;
 import com.mahn42.framework.BuildingDB;
 import com.mahn42.framework.BuildingHandlerBase;
+import java.util.logging.Logger;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -60,6 +62,10 @@ public class GateHandler extends BuildingHandlerBase {
                 && lDB.getBuildings(aBuilding.edge2).isEmpty()) {
             GateBuilding lGate = new GateBuilding();
             lGate.cloneFrom(aBuilding);
+            if (lGate.description.name.matches("Gates.DoorLeft.*")) {
+                lGate.mode = GateBuilding.GateMode.LeftRight;
+            }
+            plugin.getLogger().info("GateMode: " + lGate.mode + " desc " + lGate.description.name);
             lDB.addRecord(lGate);
             lPlayer.sendMessage("Building " + lGate.getName() + " found.");
             lFound = true;
@@ -72,4 +78,21 @@ public class GateHandler extends BuildingHandlerBase {
         return plugin.DBs.getDB(aWorld);
     }
     
+    @Override
+    public void nextConfiguration(Building aBuilding, BlockPosition position, Player aPlayer) {
+        super.nextConfiguration(aBuilding, position, aPlayer);
+        if (aBuilding instanceof GateBuilding) {
+            GateBuilding lGate = (GateBuilding)aBuilding;
+            String lMode = null;
+            switch (lGate.mode) {
+                case UpDown: lGate.mode = GateBuilding.GateMode.DownUp; lMode = "down"; break;
+                case DownUp: lGate.mode = GateBuilding.GateMode.UpDown; lMode = "up"; break;
+                case LeftRight: lGate.mode = GateBuilding.GateMode.RightLeft; lMode = "right"; break;
+                case RightLeft: lGate.mode = GateBuilding.GateMode.LeftRight; lMode = "left"; break;
+            }
+            if (aPlayer != null) {
+                aPlayer.sendMessage("Gate goes on open " + lMode + ".");
+            }
+        }
+    }
 }
