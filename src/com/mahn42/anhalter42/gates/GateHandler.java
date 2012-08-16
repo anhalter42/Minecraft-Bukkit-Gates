@@ -8,12 +8,9 @@ import com.mahn42.framework.BlockPosition;
 import com.mahn42.framework.Building;
 import com.mahn42.framework.BuildingDB;
 import com.mahn42.framework.BuildingHandlerBase;
-import java.util.logging.Logger;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 /**
  *
