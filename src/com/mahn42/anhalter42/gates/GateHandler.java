@@ -28,15 +28,6 @@ public class GateHandler extends BuildingHandlerBase {
     }
     
     @Override
-    public boolean breakBlock(BlockBreakEvent aEvent, Building aBuilding) {
-        World lWorld = aEvent.getBlock().getWorld();
-        GateBuilding lGate = (GateBuilding)aBuilding;
-        GateBuildingDB lDB = plugin.DBs.getDB(lWorld);
-        lDB.remove(lGate);
-        return true;
-    }
-    
-    @Override
     public boolean redstoneChanged(BlockRedstoneEvent aEvent, Building aBuilding) {
         boolean lOpen = aEvent.getNewCurrent() > 0;
         GateBuilding lGate = (GateBuilding)aBuilding;
@@ -50,27 +41,6 @@ public class GateHandler extends BuildingHandlerBase {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public boolean playerInteract(PlayerInteractEvent aEvent, Building aBuilding) {
-        Player lPlayer = aEvent.getPlayer();
-        World lWorld = lPlayer.getWorld();
-        boolean lFound = false;
-        GateBuildingDB lDB = plugin.DBs.getDB(lWorld);
-        if (lDB.getBuildings(aBuilding.edge1).isEmpty()
-                && lDB.getBuildings(aBuilding.edge2).isEmpty()) {
-            GateBuilding lGate = new GateBuilding();
-            lGate.cloneFrom(aBuilding);
-            if (lGate.description.name.matches("Gates.DoorLeft.*")) {
-                lGate.mode = GateBuilding.GateMode.LeftRight;
-            }
-            plugin.getLogger().info("GateMode: " + lGate.mode + " desc " + lGate.description.name);
-            lDB.addRecord(lGate);
-            lPlayer.sendMessage("Building " + lGate.getName() + " found.");
-            lFound = true;
-        }
-        return lFound;
     }
 
     @Override
@@ -94,5 +64,18 @@ public class GateHandler extends BuildingHandlerBase {
                 aPlayer.sendMessage("Gate goes on open " + lMode + ".");
             }
         }
+    }
+    
+    @Override
+    public Building insert(Building aBuilding) {
+        GateBuildingDB lDB = plugin.DBs.getDB(aBuilding.world);
+        GateBuilding lGate = new GateBuilding();
+        lGate.cloneFrom(aBuilding);
+        if (lGate.description.name.matches("Gates.DoorLeft.*")) {
+            lGate.mode = GateBuilding.GateMode.LeftRight;
+        }
+        plugin.getLogger().info("GateMode: " + lGate.mode + " desc " + lGate.description.name);
+        lDB.addRecord(lGate);
+        return lGate;
     }
 }
