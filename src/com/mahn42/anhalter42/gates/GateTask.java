@@ -59,16 +59,19 @@ public class GateTask implements Runnable {
                     fRightTop = gate.getBlock("DoorHingeRightTop").position.clone();
                     fHeight = ( fLeftTop.y - fLeftBottom.y ) + 1;
                     if (fLeftTop.x != fRightTop.x) {
-                        fWidth = Math.abs(( fLeftTop.x - fRightTop.x ) + 1);
+                        fWidth = Math.abs( fLeftTop.x - fRightTop.x ) + 1;
                         fAlongX = false;
                         fDx = (fLeftTop.x < fRightTop.x) ? 1 : -1;
                         fDz = 0;
                     } else {
-                        fWidth = Math.abs(( fLeftTop.z - fRightTop.z ) + 1);
+                        fWidth = Math.abs( fLeftTop.z - fRightTop.z ) + 1;
                         fAlongX = true;
                         fDx = 0;
                         fDz = (fLeftTop.z < fRightTop.z) ? 1 : -1;;
                     }
+                    Logger.getLogger(getClass().getSimpleName()).info("width=" + fWidth + " heigth=" + fHeight);
+                    Logger.getLogger(getClass().getSimpleName()).info("lt=" + fLeftTop + " rt=" + fRightTop);
+                    Logger.getLogger(getClass().getSimpleName()).info("lb=" + fLeftBottom + " rb=" + fRightBottom);
                     switch(gate.mode) {
                         case UpDown:
                         case DownUp:
@@ -115,7 +118,8 @@ public class GateTask implements Runnable {
             case UpDown: doUpDownOpen(); break;
             case DownUp: doDownUpOpen(); break;
             case LeftRight: doLeftRightOpen(); break;
-                default: doUpDownOpen(); break;
+            case RightLeft: doRightLeftOpen(); break;
+            default: doUpDownOpen(); break;
         }
     }
 
@@ -124,7 +128,8 @@ public class GateTask implements Runnable {
             case UpDown: doUpDownClose(); break;
             case DownUp: doDownUpClose(); break;
             case LeftRight: doLeftRightClose(); break;
-                default: doUpDownClose(); break;
+            case RightLeft: doRightLeftClose(); break;
+            default: doUpDownClose(); break;
         }
     }
 
@@ -264,24 +269,19 @@ public class GateTask implements Runnable {
                     }
                 }
             }
-            //Logger.getLogger("DownUp").info("lBottomLineEmpty " + lBottomLineEmpty + " fHeight " + fHeight + " fCount " + fCount);
-            //Logger.getLogger("DownUp").info("lLeftBottom " + lLeftBottom + " lRightBottom " + lRightBottom);
             if (lBottomLineEmpty) {
                 lLeftBottom.cloneFrom(fLeftBottom);
                 lRightBottom.cloneFrom(fRightBottom);
                 SyncBlockList lList = new SyncBlockList(gate.world);
                 for(int lDy = 0; lDy < fHeight; lDy++) {
-                    //String lLine = "";
                     for(BlockPosition lPos : new WorldLineWalk(lLeftBottom, lRightBottom)) {
                         if (!lPos.equals(lLeftBottom) && !lPos.equals(lRightBottom)) {
                             Block lFrom = lPos.getBlock(gate.world);
                             BlockPosition lTo = lPos.clone();
                             lTo.add(0,-1,0);
                             lList.add(lTo, lFrom.getType(), lFrom.getData(), true);
-                            //lLine += " " + lFrom.getType();
                         }
                     }
-                    //Logger.getLogger("DownUp").info("Line " + lLine);
                     lLeftBottom.y++;
                     lRightBottom.y++;
                 }
@@ -294,7 +294,6 @@ public class GateTask implements Runnable {
                         lList.add(lPos, Material.AIR, (byte)0, true);
                     }
                 }
-                //Logger.getLogger("DownUp").info("lList " + lList.size());
                 lList.execute();
                 fLeftBottom.add(0,-1,0);
                 fRightBottom.add(0,-1,0);
@@ -386,24 +385,19 @@ public class GateTask implements Runnable {
                     }
                 }
             }
-            Logger.getLogger("LeftRight").info("lLeftLineEmpty " + lLeftLineEmpty + " fWidth " + fWidth + " fCount " + fCount);
-            Logger.getLogger("LeftRight").info("lLeftTop " + lLeftTop + " lLeftBottom " + lLeftBottom + " fDz " + fDz + " fDx " + fDx );
             if (lLeftLineEmpty) {
                 lLeftTop.cloneFrom(fLeftTop);
                 lLeftBottom.cloneFrom(fLeftBottom);
                 SyncBlockList lList = new SyncBlockList(gate.world);
                 for(int lDy = 0; lDy < fWidth; lDy++) {
-                    //String lLine = "";
                     for(BlockPosition lPos : new WorldLineWalk(lLeftTop, lLeftBottom)) {
                         if (!lPos.equals(lLeftTop) && !lPos.equals(lLeftBottom)) {
                             Block lFrom = lPos.getBlock(gate.world);
                             BlockPosition lTo = lPos.clone();
                             lTo.add(-fDx,0,-fDz);
                             lList.add(lTo, lFrom.getType(), lFrom.getData(), true);
-                            //lLine += " " + lFrom.getType();
                         }
                     }
-                    //Logger.getLogger("LeftRight").info("Line " + lLine);
                     lLeftTop.add(fDx,0,fDz);
                     lLeftBottom.add(fDx,0,fDz);
                 }
@@ -477,8 +471,8 @@ public class GateTask implements Runnable {
                 }
             }
             lList.execute();
-            fLeftTop.add(-fDx,0,-fDz);
-            fRightTop.add(-fDx,0,-fDz);
+            fLeftTop.add(fDx,0,fDz);
+            fLeftBottom.add(fDx,0,fDz);
             fCount--;
             gate.open = false;
             gate.openCount = 0;
@@ -486,5 +480,120 @@ public class GateTask implements Runnable {
             plugin.stopGateTask(this);
         }
     }
+    
+/*************************************
+ **************** RightLeft ********** 
+ *************************************/
 
+    protected void doRightLeftOpen() {
+        if (fCount > 0) {
+            BlockPosition lRightTop = fRightTop.clone();
+            BlockPosition lRightBottom = fRightBottom.clone();
+            lRightTop.add(fDx,0,fDz);
+            lRightBottom.add(fDx,0,fDz);
+            //check if left line is empty
+            boolean lLeftLineEmpty = true;
+            for(BlockPosition lPos : new WorldLineWalk(lRightTop, lRightBottom)) {
+                if (!lPos.equals(lRightTop) && !lPos.equals(lRightBottom)) {
+                    if (!lPos.getBlockType(gate.world).equals(Material.AIR)) {
+                        lLeftLineEmpty = false;
+                        break;
+                    }
+                }
+            }
+            if (lLeftLineEmpty) {
+                lRightTop.cloneFrom(fRightTop);
+                lRightBottom.cloneFrom(fRightBottom);
+                SyncBlockList lList = new SyncBlockList(gate.world);
+                for(int lDy = 0; lDy < fWidth; lDy++) {
+                    for(BlockPosition lPos : new WorldLineWalk(lRightTop, lRightBottom)) {
+                        if (!lPos.equals(lRightTop) && !lPos.equals(lRightBottom)) {
+                            Block lFrom = lPos.getBlock(gate.world);
+                            BlockPosition lTo = lPos.clone();
+                            lTo.add(fDx,0,fDz);
+                            lList.add(lTo, lFrom.getType(), lFrom.getData(), true);
+                        }
+                    }
+                    lRightTop.add(-fDx,0,-fDz);
+                    lRightBottom.add(-fDx,0,-fDz);
+                }
+                if (fWidth > 0) {
+                    lRightTop.add(fDx,0,fDz);
+                    lRightBottom.add(fDx,0,fDz);
+                }
+                for(BlockPosition lPos : new WorldLineWalk(lRightTop, lRightBottom)) {
+                    if (!lPos.equals(lRightTop) && !lPos.equals(lRightBottom)) {
+                        lList.add(lPos, Material.AIR, (byte)0, true);
+                    }
+                }
+                lList.execute();
+                fRightTop.add(fDx,0,fDz);
+                fRightBottom.add(fDx,0,fDz);
+                fCount--;
+                gate.open = true;
+                gate.openCount++;
+            } else {
+                plugin.stopGateTask(this);
+            }
+        } else {
+            plugin.stopGateTask(this);
+        }
+    }    
+
+    protected void doRightLeftClose() {
+        if (fCount > 0) {
+            BlockPosition lRightTop = fRightTop.clone();
+            BlockPosition lRightBottom = fRightBottom.clone();
+            lRightTop.add(-fDx,0,-fDz);
+            lRightBottom.add(-fDx,0,-fDz);
+            //check if bottom line has items to drop
+            for(BlockPosition lPos : new WorldLineWalk(lRightTop, lRightBottom)) {
+                if (!lPos.equals(lRightTop) && !lPos.equals(lRightBottom)) {
+                    Block lBlock = lPos.getBlock(gate.world);
+                    Material lMat = lBlock.getType();
+                    if (!lMat.equals(Material.AIR)) {
+                        if (!(lMat.equals(Material.WATER)
+                                || lMat.equals(Material.LAVA)
+                                || lMat.equals(Material.STATIONARY_LAVA)
+                                || lMat.equals(Material.STATIONARY_WATER))) {
+                            ItemStack lStack = new ItemStack(lMat, 1, (short)0, lBlock.getData());
+                            gate.world.dropItemNaturally(lPos.getLocation(gate.world), lStack);
+                        }
+                    }
+                }
+            }
+            lRightTop.cloneFrom(fRightTop);
+            lRightBottom.cloneFrom(fRightBottom);
+            SyncBlockList lList = new SyncBlockList(gate.world);
+            for(int lDy = 0; lDy < fWidth; lDy++) {
+                for(BlockPosition lPos : new WorldLineWalk(lRightTop, lRightBottom)) {
+                    if (!lPos.equals(lRightTop) && !lPos.equals(lRightBottom)) {
+                        Block lFrom = lPos.getBlock(gate.world);
+                        BlockPosition lTo = lPos.clone();
+                        lTo.add(-fDx,0,-fDz);
+                        lList.add(lTo, lFrom.getType(), lFrom.getData(), true);
+                    }
+                }
+                lRightTop.add(fDx,0,fDz);
+                lRightBottom.add(fDx,0,fDz);
+            }
+            if (fHeight > 0) {
+                lRightTop.add(-fDx,0,-fDz);
+                lRightBottom.add(-fDx,0,-fDz);
+            }
+            for(BlockPosition lPos : new WorldLineWalk(lRightTop, lRightBottom)) {
+                if (!lPos.equals(lRightTop) && !lPos.equals(lRightBottom)) {
+                    lList.add(lPos, Material.AIR, (byte)0, true);
+                }
+            }
+            lList.execute();
+            fRightTop.add(-fDx,0,-fDz);
+            fRightBottom.add(-fDx,0,-fDz);
+            fCount--;
+            gate.open = false;
+            gate.openCount = 0;
+        } else {
+            plugin.stopGateTask(this);
+        }
+    }    
 }
