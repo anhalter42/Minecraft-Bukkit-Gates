@@ -67,11 +67,11 @@ public class GateTask implements Runnable {
                         fWidth = Math.abs( fLeftTop.z - fRightTop.z ) + 1;
                         fAlongX = true;
                         fDx = 0;
-                        fDz = (fLeftTop.z < fRightTop.z) ? 1 : -1;;
+                        fDz = (fLeftTop.z < fRightTop.z) ? 1 : -1;
                     }
-                    Logger.getLogger(getClass().getSimpleName()).info("width=" + fWidth + " heigth=" + fHeight);
-                    Logger.getLogger(getClass().getSimpleName()).info("lt=" + fLeftTop + " rt=" + fRightTop);
-                    Logger.getLogger(getClass().getSimpleName()).info("lb=" + fLeftBottom + " rb=" + fRightBottom);
+                    //Logger.getLogger(getClass().getSimpleName()).info("width=" + fWidth + " heigth=" + fHeight);
+                    //Logger.getLogger(getClass().getSimpleName()).info("lt=" + fLeftTop + " rt=" + fRightTop);
+                    //Logger.getLogger(getClass().getSimpleName()).info("lb=" + fLeftBottom + " rb=" + fRightBottom);
                     switch(gate.mode) {
                         case UpDown:
                         case DownUp:
