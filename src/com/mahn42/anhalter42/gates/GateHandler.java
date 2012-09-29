@@ -8,6 +8,8 @@ import com.mahn42.framework.BlockPosition;
 import com.mahn42.framework.Building;
 import com.mahn42.framework.BuildingDB;
 import com.mahn42.framework.BuildingHandlerBase;
+import com.mahn42.framework.Framework;
+import com.sun.tools.doclets.formats.html.FrameOutputWriter;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockRedstoneEvent;
@@ -56,9 +58,11 @@ public class GateHandler extends BuildingHandlerBase {
                 case DownUp: lGate.mode = GateBuilding.GateMode.UpDown; lMode = "up"; break;
                 case LeftRight: lGate.mode = GateBuilding.GateMode.RightLeft; lMode = "right"; break;
                 case RightLeft: lGate.mode = GateBuilding.GateMode.LeftRight; lMode = "left"; break;
+                case FlatLeftRight: lGate.mode = GateBuilding.GateMode.FlatRightLeft; lMode = "right"; break;
+                case FlatRightLeft: lGate.mode = GateBuilding.GateMode.FlatLeftRight; lMode = "left"; break;
             }
             if (aPlayer != null) {
-                aPlayer.sendMessage("Gate goes on open " + lMode + ".");
+                aPlayer.sendMessage(Gates.plugin.getText(aPlayer, "Gate goes on open %s.", Framework.plugin.getText(aPlayer, lMode.toString())));
             }
         }
     }
@@ -70,6 +74,8 @@ public class GateHandler extends BuildingHandlerBase {
         lGate.cloneFrom(aBuilding);
         if (lGate.description.name.matches("Gates.DoorLeft.*")) {
             lGate.mode = GateBuilding.GateMode.LeftRight;
+        } else if (lGate.description.name.matches("Gates.Flat.*")) {
+            lGate.mode = GateBuilding.GateMode.FlatLeftRight;
         }
         plugin.getLogger().info("GateMode: " + lGate.mode + " desc " + lGate.description.name);
         lDB.addRecord(lGate);

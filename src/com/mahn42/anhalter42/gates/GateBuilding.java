@@ -17,8 +17,8 @@ public class GateBuilding extends Building {
         DownUp,
         LeftRight,
         RightLeft,
-        MiddleLeftRight,
-        MiddleUpDown
+        FlatLeftRight,
+        FlatRightLeft,
     }
 
     public boolean open = false;
