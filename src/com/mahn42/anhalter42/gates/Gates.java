@@ -156,8 +156,7 @@ public class Gates extends JavaPlugin {
     }
     
     public String getText(CommandSender aPlayer, String aText, Object... aObjects) {
-        //TODO get language for player
-        return getText((String)null, aText, aObjects);
+        return getText(Framework.plugin.getPlayerLanguage(aPlayer.getName()), aText, aObjects);
     }
     
     public String getText(String aLanguage, String aText, Object... aObjects) {

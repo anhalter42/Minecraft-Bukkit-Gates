@@ -13,6 +13,7 @@ import com.sun.tools.doclets.formats.html.FrameOutputWriter;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  *
@@ -81,4 +82,10 @@ public class GateHandler extends BuildingHandlerBase {
         lDB.addRecord(lGate);
         return lGate;
     }
+
+    @Override
+    public JavaPlugin getPlugin() {
+        return Gates.plugin;
+    }
+    
 }
