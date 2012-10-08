@@ -5,9 +5,11 @@
 package com.mahn42.anhalter42.gates;
 
 import com.mahn42.framework.BlockPosition;
+import com.mahn42.framework.Framework;
 import com.mahn42.framework.SyncBlockList;
 import com.mahn42.framework.WorldLineWalk;
 import java.util.logging.Logger;
+import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -60,6 +62,8 @@ public class GateTask implements Runnable {
                     fLeftTop = gate.getBlock("DoorHingeLeftTop").position.clone();
                     fRightBottom = gate.getBlock("DoorHingeRightBottom").position.clone();
                     fRightTop = gate.getBlock("DoorHingeRightTop").position.clone();
+                    gate.world.playEffect(fLeftBottom.getLocation(gate.world), Effect.DOOR_TOGGLE, 0);
+                    gate.world.playEffect(fRightBottom.getLocation(gate.world), Effect.DOOR_TOGGLE, 0);
                     fHeight = ( fLeftTop.y - fLeftBottom.y ) + 1;
                     if (fLeftTop.x != fRightTop.x) {
                         fWidth = Math.abs( fLeftTop.x - fRightTop.x ) + 1;
@@ -81,10 +85,12 @@ public class GateTask implements Runnable {
                         fFDx = 0;
                         fFDz = (fLeftTop.z < fLeftBottom.z) ? 1 : -1;
                     }
-                    Logger.getLogger(getClass().getSimpleName()).info("width=" + fWidth + " heigth=" + fHeight + " depth=" + fDepth);
-                    Logger.getLogger(getClass().getSimpleName()).info("dx=" + fDx + " dz=" + fDz + " fdx=" + fFDx + " fdz=" + fFDz);
-                    Logger.getLogger(getClass().getSimpleName()).info("lt=" + fLeftTop + " rt=" + fRightTop);
-                    Logger.getLogger(getClass().getSimpleName()).info("lb=" + fLeftBottom + " rb=" + fRightBottom);
+                    if (Framework.plugin.isDebugSet("gates")) {
+                        Logger.getLogger(getClass().getSimpleName()).info("width=" + fWidth + " heigth=" + fHeight + " depth=" + fDepth);
+                        Logger.getLogger(getClass().getSimpleName()).info("dx=" + fDx + " dz=" + fDz + " fdx=" + fFDx + " fdz=" + fFDz);
+                        Logger.getLogger(getClass().getSimpleName()).info("lt=" + fLeftTop + " rt=" + fRightTop);
+                        Logger.getLogger(getClass().getSimpleName()).info("lb=" + fLeftBottom + " rb=" + fRightBottom);
+                    }
                     switch(gate.mode) {
                         case UpDown:
                         case DownUp:
