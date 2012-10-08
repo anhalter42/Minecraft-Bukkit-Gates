@@ -4,10 +4,9 @@ import com.mahn42.framework.BuildingDescription;
 import com.mahn42.framework.Framework;
 import com.mahn42.framework.WorldDBList;
 import java.util.HashMap;
-import java.util.Properties;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
@@ -24,6 +23,7 @@ public class Gates extends JavaPlugin {
 
     public Framework framework;
     public static Gates plugin;
+    public int configMaxWidth = 10;
 
     public WorldDBList<GateBuildingDB> DBs;
     
@@ -36,6 +36,7 @@ public class Gates extends JavaPlugin {
     public void onEnable() { 
         plugin = this;
         framework = Framework.plugin;
+        readGatesConfig();
         DBs = new WorldDBList<GateBuildingDB>(GateBuildingDB.class, this);
         
         framework.registerSaver(DBs);
@@ -54,12 +55,12 @@ public class Gates extends JavaPlugin {
         lBDesc.nameSensible = true;
         lBDesc.detectSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
-        lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeLeftBottom");
+        lRel = lBDesc.newRelatedTo(new Vector(0,-configMaxWidth, 0), "DoorHingeLeftBottom");
         lRel.materials.add(Material.SMOOTH_BRICK);
         lRel.materials.add(Material.BRICK);
         lRel.materials.add(Material.SANDSTONE);
         lRel.minDistance = 1;
-        lRel = lBDesc.newRelatedTo(new Vector(10, 0, 0), "DoorHingeRightTop");
+        lRel = lBDesc.newRelatedTo(new Vector(configMaxWidth, 0, 0), "DoorHingeRightTop");
         lRel.minDistance = 1;
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftBottom");
         lBDesc.redstoneSensible = true;
@@ -68,7 +69,7 @@ public class Gates extends JavaPlugin {
         lBDesc.redstoneSensible = true;
         lBDesc.nameSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
-        lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeRightBottom");
+        lRel = lBDesc.newRelatedTo(new Vector(0,-configMaxWidth, 0), "DoorHingeRightBottom");
         lRel.materials.add(Material.SMOOTH_BRICK);
         lRel.materials.add(Material.BRICK);
         lRel.materials.add(Material.SANDSTONE);
@@ -86,9 +87,9 @@ public class Gates extends JavaPlugin {
         lBDesc.nameSensible = true;
         lBDesc.detectSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
-        lRel = lBDesc.newRelatedTo(new Vector(0,-10, 0), "DoorHingeLeftBottom");
+        lRel = lBDesc.newRelatedTo(new Vector(0,-configMaxWidth, 0), "DoorHingeLeftBottom");
         lRel.minDistance = 1;
-        lRel = lBDesc.newRelatedTo(new Vector(10, 0, 0), "DoorHingeRightTop");
+        lRel = lBDesc.newRelatedTo(new Vector(configMaxWidth, 0, 0), "DoorHingeRightTop");
         lRel.materials.add(Material.SMOOTH_BRICK);
         lRel.materials.add(Material.BRICK);
         lRel.materials.add(Material.SANDSTONE);
@@ -96,7 +97,7 @@ public class Gates extends JavaPlugin {
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftBottom");
         lBDesc.redstoneSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
-        lRel = lBDesc.newRelatedTo(new Vector(10, 0, 0), "DoorHingeRightBottom");
+        lRel = lBDesc.newRelatedTo(new Vector(configMaxWidth, 0, 0), "DoorHingeRightBottom");
         lRel.materials.add(Material.SMOOTH_BRICK);
         lRel.materials.add(Material.BRICK);
         lRel.materials.add(Material.SANDSTONE);
@@ -118,9 +119,9 @@ public class Gates extends JavaPlugin {
         lBDesc.nameSensible = true;
         lBDesc.detectSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
-        lRel = lBDesc.newRelatedTo(new Vector( 0, 0,10), "DoorHingeLeftBottom");
+        lRel = lBDesc.newRelatedTo(new Vector( 0, 0,configMaxWidth), "DoorHingeLeftBottom");
         lRel.minDistance = 1;
-        lRel = lBDesc.newRelatedTo(new Vector(10, 0, 0), "DoorHingeRightTop");
+        lRel = lBDesc.newRelatedTo(new Vector(configMaxWidth, 0, 0), "DoorHingeRightTop");
         lRel.materials.add(Material.SMOOTH_BRICK);
         lRel.materials.add(Material.BRICK);
         lRel.materials.add(Material.SANDSTONE);
@@ -128,7 +129,7 @@ public class Gates extends JavaPlugin {
         lBDesc = lDesc.newBlockDescription("DoorHingeLeftBottom");
         lBDesc.redstoneSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
-        lRel = lBDesc.newRelatedTo(new Vector(10, 0, 0), "DoorHingeRightBottom");
+        lRel = lBDesc.newRelatedTo(new Vector(configMaxWidth, 0, 0), "DoorHingeRightBottom");
         lRel.materials.add(Material.SMOOTH_BRICK);
         lRel.materials.add(Material.BRICK);
         lRel.materials.add(Material.SANDSTONE);
@@ -177,6 +178,11 @@ public class Gates extends JavaPlugin {
         getServer().getScheduler().cancelTask(aTask.taskId);
         fGateTasks.remove(aTask.gate);
         //getLogger().info("stop task " + new Integer(aTask.taskId));
+    }
+
+    private void readGatesConfig() {
+        FileConfiguration lConfig = getConfig();
+        configMaxWidth = lConfig.getInt("Gates.maxWidth");
     }
     
 }
