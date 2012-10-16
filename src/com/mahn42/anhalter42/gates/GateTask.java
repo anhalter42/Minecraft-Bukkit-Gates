@@ -155,6 +155,10 @@ public class GateTask implements Runnable {
             default: doUpDownClose(); break;
         }
     }
+    
+    protected boolean isAIRLike(Material aMat) {
+        return aMat.equals(Material.AIR) || aMat.equals(Material.WATER) || aMat.equals(Material.STATIONARY_WATER) || aMat.equals(Material.LAVA) || aMat.equals(Material.STATIONARY_LAVA);
+    }
 
 /*************************************
  **************** UpDown ************* 
@@ -170,7 +174,7 @@ public class GateTask implements Runnable {
             boolean lTopLineEmpty = true;
             for(BlockPosition lPos : new WorldLineWalk(lLeftTop, lRightTop)) {
                 if (!lPos.equals(lLeftTop) && !lPos.equals(lRightTop)) {
-                    if (!lPos.getBlockType(gate.world).equals(Material.AIR)) {
+                    if (!isAIRLike(lPos.getBlockType(gate.world))) {
                         lTopLineEmpty = false;
                         break;
                     }
@@ -286,7 +290,7 @@ public class GateTask implements Runnable {
             boolean lBottomLineEmpty = true;
             for(BlockPosition lPos : new WorldLineWalk(lLeftBottom, lRightBottom)) {
                 if (!lPos.equals(lLeftBottom) && !lPos.equals(lRightBottom)) {
-                    if (!lPos.getBlockType(gate.world).equals(Material.AIR)) {
+                    if (!isAIRLike(lPos.getBlockType(gate.world))) {
                         lBottomLineEmpty = false;
                         break;
                     }
@@ -402,7 +406,7 @@ public class GateTask implements Runnable {
             boolean lLeftLineEmpty = true;
             for(BlockPosition lPos : new WorldLineWalk(lLeftTop, lLeftBottom)) {
                 if (!lPos.equals(lLeftTop) && !lPos.equals(lLeftBottom)) {
-                    if (!lPos.getBlockType(gate.world).equals(Material.AIR)) {
+                    if (!isAIRLike(lPos.getBlockType(gate.world))) {
                         lLeftLineEmpty = false;
                         break;
                     }
@@ -518,7 +522,7 @@ public class GateTask implements Runnable {
             boolean lLeftLineEmpty = true;
             for(BlockPosition lPos : new WorldLineWalk(lRightTop, lRightBottom)) {
                 if (!lPos.equals(lRightTop) && !lPos.equals(lRightBottom)) {
-                    if (!lPos.getBlockType(gate.world).equals(Material.AIR)) {
+                    if (!isAIRLike(lPos.getBlockType(gate.world))) {
                         lLeftLineEmpty = false;
                         break;
                     }
@@ -634,7 +638,7 @@ public class GateTask implements Runnable {
             boolean lLeftLineEmpty = true;
             for(BlockPosition lPos : new WorldLineWalk(lRightTop, lRightBottom)) {
                 if (!lPos.equals(lRightTop) && !lPos.equals(lRightBottom)) {
-                    if (!lPos.getBlockType(gate.world).equals(Material.AIR)) {
+                    if (!isAIRLike(lPos.getBlockType(gate.world))) {
                         lLeftLineEmpty = false;
                         break;
                     }
@@ -750,7 +754,7 @@ public class GateTask implements Runnable {
             boolean lLeftLineEmpty = true;
             for(BlockPosition lPos : new WorldLineWalk(lLeftTop, lLeftBottom)) {
                 if (!lPos.equals(lLeftTop) && !lPos.equals(lLeftBottom)) {
-                    if (!lPos.getBlockType(gate.world).equals(Material.AIR)) {
+                    if (!isAIRLike(lPos.getBlockType(gate.world))) {
                         lLeftLineEmpty = false;
                         break;
                     }
