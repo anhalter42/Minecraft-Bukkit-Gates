@@ -106,6 +106,17 @@ public class GateTask implements Runnable {
                             }
                             break;
                         case LeftRight:
+                            if (open) {
+                                fCount = fWidth - 1;
+                                gate.openCount = 0;
+                            } else {
+                                fCount = gate.openCount;
+                                fLeftTop.add(((fWidth - fCount) - 1)*fDx,0,((fWidth - fCount) - 1)*fDz);
+                                fRightTop.add(((fWidth - fCount) - 1)*fDx,0,((fWidth - fCount) - 1)*fDz);
+                                fLeftBottom.add(((fWidth - fCount) - 1)*fDx,0,((fWidth - fCount) - 1)*fDz);
+                                fRightBottom.add(((fWidth - fCount) - 1)*fDx,0,((fWidth - fCount) - 1)*fDz);
+                            }
+                            break;
                         case RightLeft:
                             if (open) {
                                 fCount = fWidth - 1;
@@ -114,8 +125,32 @@ public class GateTask implements Runnable {
                                 fCount = gate.openCount;
                                 fLeftTop.add(-((fWidth - fCount) - 1)*fDx,0,-((fWidth - fCount) - 1)*fDz);
                                 fRightTop.add(-((fWidth - fCount) - 1)*fDx,0,-((fWidth - fCount) - 1)*fDz);
+                                fLeftBottom.add(-((fWidth - fCount) - 1)*fDx,0,-((fWidth - fCount) - 1)*fDz);
+                                fRightBottom.add(-((fWidth - fCount) - 1)*fDx,0,-((fWidth - fCount) - 1)*fDz);
+                            }
+                            break;
+                        case FlatLeftRight:
+                            if (open) {
+                                fCount = fWidth - 1;
+                                gate.openCount = 0;
+                            } else {
+                                fCount = gate.openCount;
+                                fLeftTop.add(((fWidth - fCount) - 1)*fDx,0,((fWidth - fCount) - 1)*fDz);
+                                fRightTop.add(((fWidth - fCount) - 1)*fDx,0,((fWidth - fCount) - 1)*fDz);
                                 fLeftBottom.add(((fWidth - fCount) - 1)*fDx,0,((fWidth - fCount) - 1)*fDz);
                                 fRightBottom.add(((fWidth - fCount) - 1)*fDx,0,((fWidth - fCount) - 1)*fDz);
+                            }
+                            break;
+                        case FlatRightLeft:
+                            if (open) {
+                                fCount = fWidth - 1;
+                                gate.openCount = 0;
+                            } else {
+                                fCount = gate.openCount;
+                                fLeftTop.add(-((fWidth - fCount) - 1)*fDx,0,-((fWidth - fCount) - 1)*fDz);
+                                fRightTop.add(-((fWidth - fCount) - 1)*fDx,0,-((fWidth - fCount) - 1)*fDz);
+                                fLeftBottom.add(-((fWidth - fCount) - 1)*fDx,0,-((fWidth - fCount) - 1)*fDz);
+                                fRightBottom.add(-((fWidth - fCount) - 1)*fDx,0,-((fWidth - fCount) - 1)*fDz);
                             }
                             break;
                     }
