@@ -142,6 +142,38 @@ public class Gates extends JavaPlugin {
         lBDesc.redstoneSensible = true;
         lBDesc.materials.add(Material.IRON_BLOCK);
         lDesc.createAndActivateXZ();
+
+        lDesc = framework.getBuildingDetector().newDescription("Gates.DoorDiag");
+        lDesc.typeName = "Gate";
+        lDesc.handler = lHandler;
+        lBDesc = lDesc.newBlockDescription("DoorHingeLeftTop");
+        lBDesc.redstoneSensible = true;
+        lBDesc.nameSensible = true;
+        lBDesc.detectSensible = true;
+        lBDesc.materials.add(Material.IRON_BLOCK);
+        lRel = lBDesc.newRelatedTo(new Vector(0,-configMaxWidth, 0), "DoorHingeLeftBottom");
+        lRel.materials.add(Material.SMOOTH_BRICK);
+        lRel.materials.add(Material.BRICK);
+        lRel.materials.add(Material.SANDSTONE);
+        lRel.minDistance = 1;
+        lRel = lBDesc.newRelatedTo(new Vector(configMaxWidth, 0, configMaxWidth), "DoorHingeRightTop");
+        lRel.minDistance = 1;
+        lBDesc = lDesc.newBlockDescription("DoorHingeLeftBottom");
+        lBDesc.redstoneSensible = true;
+        lBDesc.materials.add(Material.IRON_BLOCK);
+        lBDesc = lDesc.newBlockDescription("DoorHingeRightTop");
+        lBDesc.redstoneSensible = true;
+        lBDesc.nameSensible = true;
+        lBDesc.materials.add(Material.IRON_BLOCK);
+        lRel = lBDesc.newRelatedTo(new Vector(0,-configMaxWidth, 0), "DoorHingeRightBottom");
+        lRel.materials.add(Material.SMOOTH_BRICK);
+        lRel.materials.add(Material.BRICK);
+        lRel.materials.add(Material.SANDSTONE);
+        lRel.minDistance = 1;
+        lBDesc = lDesc.newBlockDescription("DoorHingeRightBottom");
+        lBDesc.redstoneSensible = true;
+        lBDesc.materials.add(Material.IRON_BLOCK);
+        lDesc.createAndActivateXZ();
     }
 
     @Override
