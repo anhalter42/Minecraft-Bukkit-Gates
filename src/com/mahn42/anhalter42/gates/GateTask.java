@@ -62,8 +62,15 @@ public class GateTask implements Runnable {
                     fLeftTop = gate.getBlock("DoorHingeLeftTop").position.clone();
                     fRightBottom = gate.getBlock("DoorHingeRightBottom").position.clone();
                     fRightTop = gate.getBlock("DoorHingeRightTop").position.clone();
-                    gate.world.playEffect(fLeftBottom.getLocation(gate.world), Effect.DOOR_TOGGLE, 0);
-                    gate.world.playEffect(fRightBottom.getLocation(gate.world), Effect.DOOR_TOGGLE, 0);
+                    plugin.getServer().getScheduler().runTask(plugin, 
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                gate.world.playEffect(fLeftBottom.getLocation(gate.world), Effect.DOOR_TOGGLE, 0);
+                                gate.world.playEffect(fRightBottom.getLocation(gate.world), Effect.DOOR_TOGGLE, 0);
+                            }
+                        }
+                    );
                     fHeight = ( fLeftTop.y - fLeftBottom.y ) + 1;
                     if (fLeftTop.x != fRightTop.x) {
                         fWidth = Math.abs( fLeftTop.x - fRightTop.x ) + 1;
@@ -300,6 +307,7 @@ public class GateTask implements Runnable {
                     lList.add(lPos, Material.AIR, (byte)0, true);
                 }
             }
+            lList.moveDependantBlocksAtEnd();
             lList.execute();
             fLeftTop.add(0,-1,0);
             fRightTop.add(0,-1,0);
