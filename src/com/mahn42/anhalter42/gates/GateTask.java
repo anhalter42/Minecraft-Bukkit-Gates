@@ -247,6 +247,7 @@ public class GateTask implements Runnable {
                         lList.add(lPos, Material.AIR, (byte)0, true);
                     }
                 }
+                lList.moveDependantBlocksAtEnd();
                 lList.execute();
                 fLeftTop.add(0,1,0);
                 fRightTop.add(0,1,0);
@@ -364,6 +365,7 @@ public class GateTask implements Runnable {
                         lList.add(lPos, Material.AIR, (byte)0, true);
                     }
                 }
+                lList.moveDependantBlocksAtEnd();
                 lList.execute();
                 fLeftBottom.add(0,-1,0);
                 fRightBottom.add(0,-1,0);
@@ -424,6 +426,7 @@ public class GateTask implements Runnable {
                     lList.add(lPos, Material.AIR, (byte)0, true);
                 }
             }
+            lList.moveDependantBlocksAtEnd();
             lList.execute();
             fLeftBottom.add(0,1,0);
             fRightBottom.add(0,1,0);
@@ -480,6 +483,7 @@ public class GateTask implements Runnable {
                         lList.add(lPos, Material.AIR, (byte)0, true);
                     }
                 }
+                lList.moveDependantBlocksAtEnd();
                 lList.execute();
                 fLeftTop.add(-fDx,0,-fDz);
                 fLeftBottom.add(-fDx,0,-fDz);
@@ -540,6 +544,7 @@ public class GateTask implements Runnable {
                     lList.add(lPos, Material.AIR, (byte)0, true);
                 }
             }
+            lList.moveDependantBlocksAtEnd();
             lList.execute();
             fLeftTop.add(fDx,0,fDz);
             fLeftBottom.add(fDx,0,fDz);
@@ -596,6 +601,7 @@ public class GateTask implements Runnable {
                         lList.add(lPos, Material.AIR, (byte)0, true);
                     }
                 }
+                lList.moveDependantBlocksAtEnd();
                 lList.execute();
                 fRightTop.add(fDx,0,fDz);
                 fRightBottom.add(fDx,0,fDz);
@@ -656,6 +662,7 @@ public class GateTask implements Runnable {
                     lList.add(lPos, Material.AIR, (byte)0, true);
                 }
             }
+            lList.moveDependantBlocksAtEnd();
             lList.execute();
             fRightTop.add(-fDx,0,-fDz);
             fRightBottom.add(-fDx,0,-fDz);
@@ -712,6 +719,7 @@ public class GateTask implements Runnable {
                         lList.add(lPos, Material.AIR, (byte)0, true);
                     }
                 }
+                lList.moveDependantBlocksAtEnd();
                 lList.execute();
                 fRightTop.add(fDx,0,fDz);
                 fRightBottom.add(fDx,0,fDz);
@@ -772,6 +780,7 @@ public class GateTask implements Runnable {
                     lList.add(lPos, Material.AIR, (byte)0, true);
                 }
             }
+            lList.moveDependantBlocksAtEnd();
             lList.execute();
             fRightTop.add(-fDx,0,-fDz);
             fRightBottom.add(-fDx,0,-fDz);
@@ -828,6 +837,7 @@ public class GateTask implements Runnable {
                         lList.add(lPos, Material.AIR, (byte)0, true);
                     }
                 }
+                lList.moveDependantBlocksAtEnd();
                 lList.execute();
                 fLeftTop.add(-fDx,0,-fDz);
                 fLeftBottom.add(-fDx,0,-fDz);
@@ -888,6 +898,7 @@ public class GateTask implements Runnable {
                     lList.add(lPos, Material.AIR, (byte)0, true);
                 }
             }
+            lList.moveDependantBlocksAtEnd();
             lList.execute();
             fLeftTop.add(fDx,0,fDz);
             fLeftBottom.add(fDx,0,fDz);
