@@ -9,7 +9,6 @@ import com.mahn42.framework.Building;
 import com.mahn42.framework.BuildingDB;
 import com.mahn42.framework.BuildingHandlerBase;
 import com.mahn42.framework.Framework;
-import com.sun.tools.doclets.formats.html.FrameOutputWriter;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockRedstoneEvent;
