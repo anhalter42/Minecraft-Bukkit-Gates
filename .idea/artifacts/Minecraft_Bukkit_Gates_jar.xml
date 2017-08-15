@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Minecraft-Bukkit-Gates:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Minecraft_Bukkit_Gates_jar</output-path>
+    <root id="archive" name="com.mahn42.anhalter42.gates.jar">
+      <element id="module-output" name="Minecraft-Bukkit-Gates" />
+    </root>
+  </artifact>
+</component>
